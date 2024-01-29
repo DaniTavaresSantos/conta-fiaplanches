@@ -15,7 +15,6 @@
     <description>fiap-lanches-client</description>
     <properties>
         <java.version>17</java.version>
-<!--        <junit.version>5.9.3</junit.version>-->
         <testcontainers.version>1.19.0</testcontainers.version>
         <aspectj.version>1.9.19</aspectj.version>
     </properties>
