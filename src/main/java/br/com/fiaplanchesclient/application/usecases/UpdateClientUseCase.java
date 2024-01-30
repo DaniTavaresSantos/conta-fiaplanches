@@ -4,7 +4,6 @@ import br.com.fiaplanchesclient.application.ports.out.ClientRepositoryPortOut;
 import br.com.fiaplanchesclient.domain.Client;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
 import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 @Slf4j

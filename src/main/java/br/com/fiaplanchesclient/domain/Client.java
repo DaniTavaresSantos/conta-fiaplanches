@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class Client {
 
-    private Long id;
+    private String id;
 
     private String cpf;
 
     private String nome;
 
-    public Client(Long id, String cpf, String nome) {
+    public Client(String id, String cpf, String nome) {
         this.id = id;
         this.cpf = cpf;
         this.nome = nome;
@@ -19,11 +19,11 @@ public class Client {
     public Client() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

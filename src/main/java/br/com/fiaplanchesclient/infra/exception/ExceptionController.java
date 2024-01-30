@@ -4,7 +4,6 @@ import br.com.fiaplanchesclient.infra.exception.handler.BadRequestException;
 import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
 import br.com.fiaplanchesclient.infra.exception.handler.MessageDefaultExceptionHandler;
 import br.com.fiaplanchesclient.infra.exception.handler.PaymentRefusedException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -18,19 +17,6 @@ import java.util.Date;
 @ControllerAdvice(basePackages = "br.com.fiaplanchesclient.infra.rest")
 @Slf4j
 public class ExceptionController {
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<MessageDefaultExceptionHandler> handlerNotFoundException(EntityNotFoundException exception){
-        return new ResponseEntity<>(
-                new MessageDefaultExceptionHandler(
-                        exception.getMessage(),
-                        HttpStatus.BAD_REQUEST.value(),
-                        HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                        new Date()
-                ),
-                HttpStatus.BAD_REQUEST
-        );
-    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<MessageDefaultExceptionHandler> handlerNotFoundException(RuntimeException exception){

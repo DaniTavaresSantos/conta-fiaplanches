@@ -1,23 +1,20 @@
 package br.com.fiaplanchesclient.infra.repository.entity;
 
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity(name = "Cliente")
-@Table(name = "cliente")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Document(collection = "cliente")
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class ClientEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String cpf;
 

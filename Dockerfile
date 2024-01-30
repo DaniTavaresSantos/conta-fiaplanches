@@ -1,6 +1,6 @@
 FROM maven:latest
 
-ENV SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db-conta:5432/fiap-lanches-client
+ENV SPRING_DATA_MONGODB_URI=mongodb://mongo-db-client:27017/fiap-lanches-client
 WORKDIR /app
 RUN rm -rf /app/*
 COPY . /app
