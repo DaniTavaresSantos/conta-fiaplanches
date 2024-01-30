@@ -17,14 +17,3 @@ management:
         include: health
 server:
   port: 8085
-
-
-logging:
-  level:
-    root: error
-    org.springframework: error
-
-app:
-  db:
-    init:
-      enabled: true

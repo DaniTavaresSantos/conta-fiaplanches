@@ -2,6 +2,7 @@ package br.com.fiaplanchesclient.application.usecases;
 
 import br.com.fiaplanchesclient.application.ports.out.ClientRepositoryPortOut;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
+import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
 
 public class CreateClientUseCase {
 
@@ -16,7 +17,7 @@ public class CreateClientUseCase {
         if (cliente.isEmpty()) {
             return clientRepositoryPortOut.saveClient(clienteDto);
         } else {
-            throw new IllegalArgumentException("Cliente ja cadastrado");
+            throw new ContaBusinessException("Cliente ja cadastrado");
         }
     }
 }

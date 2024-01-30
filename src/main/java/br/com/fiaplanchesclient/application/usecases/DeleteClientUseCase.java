@@ -1,7 +1,7 @@
 package br.com.fiaplanchesclient.application.usecases;
 
 import br.com.fiaplanchesclient.application.ports.out.ClientRepositoryPortOut;
-import jakarta.persistence.EntityNotFoundException;
+import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
 
 public class DeleteClientUseCase {
 
@@ -14,7 +14,7 @@ public class DeleteClientUseCase {
 
     public void remove(String cpf) {
         clientRepositoryPortOut.findClientByCpf(cpf)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+                .orElseThrow(() -> new ContaBusinessException("Cliente não encontrado"));
         clientRepositoryPortOut.deleteClient(cpf);
     }
 }

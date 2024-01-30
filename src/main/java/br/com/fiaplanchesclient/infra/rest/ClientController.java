@@ -6,12 +6,10 @@ import br.com.fiaplanchesclient.application.usecases.CreateClientUseCase;
 import br.com.fiaplanchesclient.application.usecases.DeleteClientUseCase;
 import br.com.fiaplanchesclient.application.usecases.FindClientUseCase;
 import br.com.fiaplanchesclient.application.usecases.UpdateClientUseCase;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.boot.actuate.endpoint.annotation.DeleteOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,9 +62,7 @@ public class ClientController {
         return ResponseEntity.ok(ClientResponseDto.toClientResponseDto(updateClientUseCase.atualiza(updateCliente.toClienteDto())));
     }
 
-
-    @DeleteMapping(value = "/delete/{cpf}")
-    @Transactional
+    @DeleteMapping("/{cpf}")
     public ResponseEntity<String> removeCliente(
             @PathVariable
             @NotBlank(message = "Número do CPF não pode ser vazio")
