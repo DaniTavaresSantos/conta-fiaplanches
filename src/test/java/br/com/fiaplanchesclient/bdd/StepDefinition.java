@@ -11,8 +11,11 @@ import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import jakarta.transaction.Transactional;
 import org.hamcrest.core.Is;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -22,6 +25,8 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
+@Transactional
 public class StepDefinition {
 
     @Autowired
@@ -62,11 +67,13 @@ public class StepDefinition {
         clientDto = new ClientRequestDto("", "");
     }
 
+    @Test
     @Dado("o cliente de CPF {word} e nome {string}")
     public void oClienteDeCPFENome(String cpf, String name) {
         clientDto = new ClientRequestDto(cpf, name);
     }
 
+    @Test
     @Quando("for realizada a chamada no endpoint de criação de cliente")
     public void for_realizada_a_chamada_no_endpoint_de_criação_de_cliente() {
         response = given()
@@ -81,6 +88,7 @@ public class StepDefinition {
 
     }
 
+    @Test
     @Quando("for realizada a chamada no endpoint de busca de cliente")
     public void forRealizadaAChamadaNoEndpointDeBuscaDeCliente() {
         response = given()
@@ -93,6 +101,7 @@ public class StepDefinition {
                 .body(matchesJsonSchemaInClasspath("schemas/ClientSchema.json"));
     }
 
+    @Test
     @Quando("for realizada a chamada no endpoint de atualizacao de cliente")
     public void forRealizadaAChamadaNoEndpointDeAtualizacaoDeCliente() {
         clientDto = new ClientRequestDto(clientDto.cpf(), nomeAtual);
@@ -110,6 +119,7 @@ public class StepDefinition {
         response.then().assertThat().body("nome", Is.is(nomeAtual));
     }
 
+    @Test
     @Quando("for realizada a chamada no endpoint de delecao de cliente")
     public void for_realizada_a_chamada_no_endpoint_de_delecao_de_cliente() {
 
@@ -122,6 +132,7 @@ public class StepDefinition {
 
     }
 
+    @Test
     @Entao("o cliente deve ser localizado com sucesso na base")
     public void oClienteDeveSerLocalizadoComSucessoNaBase() {
         ClientEntity clienteEntity = clienteRepository.findByCpf(clientDto.cpf()).
@@ -130,6 +141,7 @@ public class StepDefinition {
         assertEquals(clientDto.nome(), clienteEntity.toClienteDto().nome());
     }
 
+    @Test
     @Entao("o cliente deve ser atualizado com sucesso na base")
     public void oClienteDeveSerAtualizadoComSucessoNaBase() {
 
@@ -139,12 +151,14 @@ public class StepDefinition {
         assertEquals(nomeAtual, clienteEntity.toClienteDto().nome());
     }
 
+    @Test
     @E("alterar os dados para CPF {word} e nome {word}")
     public void alterarOsDadosParaCPFENomeCleiton(String cpf, String name) {
         nomeAtual = name;
     }
 
 
+    @Test
     @Entao("o cliente não deve ser encontrado na base")
     public void oClienteNaoDeveSerEncontradoNaBase() {
 
