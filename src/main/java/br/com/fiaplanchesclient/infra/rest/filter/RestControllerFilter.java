@@ -24,7 +24,6 @@ import java.util.UUID;
 @Component
 @Slf4j
 @WebFilter("/*")
-@Generated
 public class RestControllerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -59,6 +58,7 @@ public class RestControllerFilter extends OncePerRequestFilter {
                 this.stream = stream;
             }
 
+            @Generated
             @Override
             public boolean isFinished() {
                 try {
@@ -69,11 +69,13 @@ public class RestControllerFilter extends OncePerRequestFilter {
                 }
             }
 
+            @Generated
             @Override
             public boolean isReady() {
                 return true;
             }
 
+            @Generated
             @Override
             public void setReadListener(ReadListener listener) {
             }

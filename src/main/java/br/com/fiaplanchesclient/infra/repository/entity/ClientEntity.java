@@ -1,5 +1,6 @@
 package br.com.fiaplanchesclient.infra.repository.entity;
 
+import br.com.fiaplanchesclient.generated.Generated;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Generated
 public class ClientEntity {
 
     @Id
