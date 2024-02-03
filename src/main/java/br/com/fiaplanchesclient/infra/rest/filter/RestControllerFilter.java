@@ -1,5 +1,6 @@
 package br.com.fiaplanchesclient.infra.rest.filter;
 
+import br.com.fiaplanchesclient.generated.Generated;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import jakarta.servlet.FilterChain;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @Component
 @Slf4j
 @WebFilter("/*")
+@Generated
 public class RestControllerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
