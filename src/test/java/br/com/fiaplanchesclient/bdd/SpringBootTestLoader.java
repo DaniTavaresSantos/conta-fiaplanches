@@ -27,8 +27,7 @@ public class SpringBootTestLoader {
     @BeforeAll
     public static void setup() {
         System.out.println("starting DB");
-        DockerImageName myImage = DockerImageName.parse("bddfun-database").asCompatibleSubstituteFor("postgres");
-        postgresContainer = new PostgreSQLContainer(myImage)
+        postgresContainer = new PostgreSQLContainer("postgres")
                 .withDatabaseName("fiap-lanches-client")
                 .withUsername("admin")
                 .withPassword("admin123");
