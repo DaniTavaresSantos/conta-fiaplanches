@@ -150,8 +150,6 @@ public class StepDefinition {
 
         assertEquals(nomeAtual, clienteEntity.toClienteDto().nome());
     }
-
-    @Test
     @E("alterar os dados para CPF {word} e nome {word}")
     public void alterarOsDadosParaCPFENomeCleiton(String cpf, String name) {
         nomeAtual = name;
