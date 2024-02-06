@@ -318,14 +318,6 @@
                         </goals>
                     </execution>
                 </executions>
-<!--                <configuration>-->
-<!--                    <excludes>-->
-<!--                        <exclude>snmaddula/app/domain/*.class</exclude>-->
-<!--                        <exclude>snmaddula/app/exception/*.class</exclude>-->
-<!--                        <exclude>snmaddula/app/filter/*.class</exclude>-->
-<!--                        <exclude>snmaddula/app/App.class</exclude>-->
-<!--                    </excludes>-->
-<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
