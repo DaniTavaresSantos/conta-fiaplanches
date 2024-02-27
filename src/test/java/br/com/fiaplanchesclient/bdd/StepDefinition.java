@@ -2,7 +2,7 @@ package br.com.fiaplanchesclient.bdd;
 
 import br.com.fiaplanchesclient.application.dtos.ClientRequestDto;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
-import br.com.fiaplanchesclient.infra.repository.PostGresClienteRepository;
+import br.com.fiaplanchesclient.infra.repository.MongoClientRepository;
 import br.com.fiaplanchesclient.infra.repository.entity.ClientEntity;
 import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StepDefinition {
 
     @Autowired
-    private PostGresClienteRepository clienteRepository;
+    private MongoClientRepository clienteRepository;
 
     private Response response;
 
@@ -47,16 +47,16 @@ public class StepDefinition {
 
         System.out.println("Including Data.....");
 
-        ClientEntity c1 = new ClientEntity( new ClientDto(1L,
+        ClientEntity c1 = new ClientEntity( new ClientDto("1",
                 "38037984850",
                 "Daniel Tavares"));
-        ClientEntity c2 = new ClientEntity( new ClientDto(2L,
+        ClientEntity c2 = new ClientEntity( new ClientDto("2",
                 "49174699881",
                 "Nicole Tavares"));
-        ClientEntity c3 = new ClientEntity( new ClientDto(3L,
+        ClientEntity c3 = new ClientEntity( new ClientDto("3",
                 "10640145850",
                 "Cristian Macedo"));
-        ClientEntity c4 = new ClientEntity( new ClientDto(4L,
+        ClientEntity c4 = new ClientEntity( new ClientDto("4",
                 "16494823882",
                 "Juan Silva"));
 

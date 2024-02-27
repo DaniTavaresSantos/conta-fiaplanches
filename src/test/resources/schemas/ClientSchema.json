@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Client Response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "cpf": {
+      "type": "string"
+    },
+    "nome": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "cpf",
+    "nome"
+  ]
+}

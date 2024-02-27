@@ -32,4 +32,10 @@ public class ClientRepositoryAdapterOut implements ClientRepositoryPortOut {
     public void deleteClient(String cpf) {
         mongoClientRepository.deleteByCpf(cpf);
     }
+
+    @Override
+    public void deleteAll() {
+
+        mongoClientRepository.deleteAll();
+    }
 }
