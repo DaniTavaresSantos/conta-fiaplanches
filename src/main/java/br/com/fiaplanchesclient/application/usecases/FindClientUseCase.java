@@ -2,6 +2,7 @@ package br.com.fiaplanchesclient.application.usecases;
 
 import br.com.fiaplanchesclient.application.ports.out.ClientRepositoryPortOut;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
+import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
 
 public class FindClientUseCase {
 
@@ -13,6 +14,6 @@ public class FindClientUseCase {
 
     public ClientDto procuraPorCpf(String cpf) {
         return clientRepositoryPortOut.findClientByCpf(cpf)
-                .orElseThrow(() -> new RuntimeException("Cliente nao localizado"));
+                .orElseThrow(() -> new ContaBusinessException("Cliente nao localizado"));
     }
 }

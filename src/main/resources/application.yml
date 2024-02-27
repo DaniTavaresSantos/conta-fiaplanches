@@ -1,15 +1,7 @@
 spring:
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/fiap-lanches-client}
-    username: ${SPRING_DATASOURCE_USERNAME:admin}
-    password: ${SPRING_DATASOURCE_PASSWORD:admin123}
-  jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/fiap-lanches-client}
 management:
   endpoints:
     web:
@@ -17,7 +9,6 @@ management:
         include: health
 server:
   port: 8085
-
 
 logging:
   level:

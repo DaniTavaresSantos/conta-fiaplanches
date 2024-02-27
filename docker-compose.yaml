@@ -1,16 +1,14 @@
 version: '3.8'
 
 services:
-  postgres-db-client:
-    image: postgres
+  mongo-db-client:
+    image: mongo
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: fiap-lanches-client
+      MONGO_INITDB_DATABASE: fiap-lanches-client
     ports:
-      - "5433:5432"
+      - "27017:27017"
     volumes:
-      - postgres-db-client:/var/lib/postgresql/data
+      - mongo-db-client:/data/db
     networks:
       - fiap-lanchonet-network
 
@@ -24,7 +22,7 @@ services:
     volumes:
       - fiap-lanches-client-api:/var/lib/fiaplancher/data
     depends_on:
-      - postgres-db-client
+      - mongo-db-client
     networks:
       - fiap-lanchonet-network
 
@@ -33,7 +31,7 @@ networks:
     external: true
 
 volumes:
-  postgres-db-client:
+  mongo-db-client:
     driver: local
   fiap-lanches-client-api:
     driver: local
