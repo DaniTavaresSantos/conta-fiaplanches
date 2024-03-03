@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -37,15 +39,12 @@ public class SpringBootTestLoader {
      * Datasource dynamic configuration
      *
      */
-    @TestConfiguration
-    static class PostgresTestConfiguration {
-        @Bean
-        DataSource dataSource() {
-            HikariConfig hikariConfig = new HikariConfig();
-            hikariConfig.(mongoDBContainer.getJdbcUrl());
-            hikariConfig.setUsername(mongoDBContainer.getUsername());
-            hikariConfig.setPassword(mongoDBContainer.getPassword());
-            return new HikariDataSource(hikariConfig);
+//    @TestConfiguration
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.host", mongoDBContainer::getHost);
+        registry.add("spring.data.mongodb.port", mongoDBContainer::getFirstMappedPort);
+        registry.add("spring.data.mongodb.database", () -> "fiap-lanches-client");
 //        }
     }
 

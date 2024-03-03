@@ -15,10 +15,14 @@ import jakarta.transaction.Transactional;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -27,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
+@DataMongoTest
+@Testcontainers
 public class StepDefinition {
 
     @Autowired
@@ -125,7 +131,7 @@ public class StepDefinition {
 
         response = given()
                 .when()
-                .delete(END_API_CLIENTE + "/delete/" + clientDto.cpf());
+                .delete(END_API_CLIENTE + "/" + clientDto.cpf());
 
         response.then().assertThat().statusCode(HttpStatus.OK.value());
         System.out.println(response.body().prettyPrint());
@@ -165,6 +171,11 @@ public class StepDefinition {
                 .when()
                 .get(END_API_CLIENTE + "/find/" + clientDto.cpf());
 
-        response.then().assertThat().statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        List<String> errorMessage = new ArrayList<String>();
+        errorMessage.add("Cliente nao localizado");
+
+        response.then().assertThat().statusCode(HttpStatus.BAD_REQUEST.value());
+        response.then().assertThat().body("exception", Is.is(errorMessage));
+        System.out.println(response.body().prettyPrint());
     }
 }
