@@ -10,17 +10,8 @@ jobs:
     services:
         postgres:
           image: mongo
-          env:
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: admin123
-            POSTGRES_DB: fiap-lanches-client
-          options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
           ports:  
-          - 5432:5432
+          - 27017:27017
           
     name: Build and analyze
     runs-on: ubuntu-latest
