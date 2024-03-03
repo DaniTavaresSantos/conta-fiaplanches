@@ -1,6 +1,7 @@
 package br.com.fiaplanchesclient.infra.adapters.out;
 
 import br.com.fiaplanchesclient.application.ports.out.ClientRepositoryPortOut;
+import br.com.fiaplanchesclient.generated.Generated;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
 import br.com.fiaplanchesclient.infra.repository.MongoClientRepository;
 import br.com.fiaplanchesclient.infra.repository.entity.ClientEntity;
@@ -33,6 +34,8 @@ public class ClientRepositoryAdapterOut implements ClientRepositoryPortOut {
         mongoClientRepository.deleteByCpf(cpf);
     }
 
+
+    @Generated
     @Override
     public void deleteAll() {
 

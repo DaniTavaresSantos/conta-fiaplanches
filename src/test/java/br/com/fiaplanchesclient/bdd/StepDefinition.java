@@ -43,6 +43,8 @@ public class StepDefinition {
     private ClientRequestDto clientDto;
 
     private String nomeAtual;
+    
+    private String cpfAtual;
 
     private final String END_API_CLIENTE = "http://localhost:8085/v1/client";
 
@@ -157,8 +159,9 @@ public class StepDefinition {
         assertEquals(nomeAtual, clienteEntity.toClienteDto().nome());
     }
     @E("alterar os dados para CPF {word} e nome {word}")
-    public void alterarOsDadosParaCPFENomeCleiton(String cpf, String name) {
+    public void alterarOsDadosParaCPFENome(String cpf, String name) {
         nomeAtual = name;
+        cpfAtual = cpf;
     }
 
 
@@ -177,5 +180,31 @@ public class StepDefinition {
         response.then().assertThat().statusCode(HttpStatus.BAD_REQUEST.value());
         response.then().assertThat().body("exception", Is.is(errorMessage));
         System.out.println(response.body().prettyPrint());
+    }
+
+    @Quando("for realizada a chamada no endpoint de criação com cliente ja cadastrado")
+    public void forRealizadaAChamadaNoEndpointDeCriaçãoComClienteJaCadastrado() {
+        response = given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(clientDto)
+                .when()
+                .post(END_API_CLIENTE + "/create");
+    }
+
+    @Quando("for realizada a chamada no endpoint de atualizacao de cliente com cliente nao cadastrado")
+    public void forRealizadaAChamadaNoEndpointDeAtualizacaoDeClienteComClienteNaoCadastrado() {
+        clientDto = new ClientRequestDto(cpfAtual, nomeAtual);
+
+        response = given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(clientDto)
+                .when()
+                .put(END_API_CLIENTE + "/update");
+    }
+
+    @Entao("o cliente nao deve ser cadastrado e a requisicao será sem sucesso")
+    public void oClienteNaoDeveSerCadastradoEARequisicaoSeráSemSucesso() {
+        response.then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

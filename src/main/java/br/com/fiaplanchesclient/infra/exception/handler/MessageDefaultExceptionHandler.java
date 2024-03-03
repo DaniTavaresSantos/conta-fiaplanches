@@ -1,5 +1,6 @@
 package br.com.fiaplanchesclient.infra.exception.handler;
 
+import br.com.fiaplanchesclient.generated.Generated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Generated
 public class MessageDefaultExceptionHandler {
     public List<String> exception;
     public Integer statusCode;

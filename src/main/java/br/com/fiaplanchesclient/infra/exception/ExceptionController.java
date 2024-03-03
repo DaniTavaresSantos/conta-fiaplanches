@@ -1,5 +1,6 @@
 package br.com.fiaplanchesclient.infra.exception;
 
+import br.com.fiaplanchesclient.generated.Generated;
 import br.com.fiaplanchesclient.infra.exception.handler.BadRequestException;
 import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
 import br.com.fiaplanchesclient.infra.exception.handler.MessageDefaultExceptionHandler;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 @ControllerAdvice(basePackages = "br.com.fiaplanchesclient.infra.rest")
 @Slf4j
+@Generated
 public class ExceptionController {
 
     @ExceptionHandler(RuntimeException.class)
