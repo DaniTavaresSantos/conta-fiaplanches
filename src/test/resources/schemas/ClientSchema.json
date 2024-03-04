@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "id": {
-      "type": "number"
+      "type": "string"
     },
     "cpf": {
       "type": "string"

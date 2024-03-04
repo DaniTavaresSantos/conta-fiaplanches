@@ -3,7 +3,7 @@ package br.com.fiaplanchesclient.infra.dto;
 import br.com.fiaplanchesclient.domain.Client;
 
 public record ClientDto(
-        Long id,
+        String id,
         String cpf,
         String nome
 ) {

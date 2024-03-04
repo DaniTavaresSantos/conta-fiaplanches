@@ -11,4 +11,6 @@ public interface ClientRepositoryPortOut {
     Optional<ClientDto> findClientByCpf(String cpf);
 
     void deleteClient(String cpf);
+
+    void deleteAll();
 }

@@ -5,9 +5,9 @@ import javax.sql.DataSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -19,7 +19,7 @@ import io.cucumber.spring.CucumberContextConfiguration;
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class SpringBootTestLoader {
-    static PostgreSQLContainer postgresContainer;
+    static MongoDBContainer mongoDBContainer;
 
     /**
      * Initial database setup
@@ -27,28 +27,25 @@ public class SpringBootTestLoader {
     @BeforeAll
     public static void setup() {
         System.out.println("starting DB");
-        postgresContainer = new PostgreSQLContainer("postgres")
-                .withDatabaseName("fiap-lanches-client")
-                .withUsername("admin")
-                .withPassword("admin123");
-        postgresContainer.start();
-        System.out.println(postgresContainer.getJdbcUrl());
+        mongoDBContainer = new MongoDBContainer("mongo:latest")
+                .withExposedPorts(27017);
+        mongoDBContainer.start();
+        var mappedPort = mongoDBContainer.getMappedPort(27017);
+        System.setProperty("mongodb.container.port", String.valueOf(mappedPort));
+        System.out.println(mongoDBContainer.getConnectionString() + "Port:" + mappedPort );
     }
 
     /**
      * Datasource dynamic configuration
      *
      */
-    @TestConfiguration
-    static class PostgresTestConfiguration {
-        @Bean
-        DataSource dataSource() {
-            HikariConfig hikariConfig = new HikariConfig();
-            hikariConfig.setJdbcUrl(postgresContainer.getJdbcUrl());
-            hikariConfig.setUsername(postgresContainer.getUsername());
-            hikariConfig.setPassword(postgresContainer.getPassword());
-            return new HikariDataSource(hikariConfig);
-        }
+//    @TestConfiguration
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.host", mongoDBContainer::getHost);
+        registry.add("spring.data.mongodb.port", mongoDBContainer::getFirstMappedPort);
+        registry.add("spring.data.mongodb.database", () -> "fiap-lanches-client");
+//        }
     }
 
     /**
@@ -57,6 +54,6 @@ public class SpringBootTestLoader {
     @AfterAll
     public static void tearDown() {
         System.out.println("closing DB connection");
-        postgresContainer.stop();
+        mongoDBContainer.stop();
     }
 }

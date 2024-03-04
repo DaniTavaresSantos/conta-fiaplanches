@@ -3,7 +3,7 @@ package br.com.fiaplanchesclient.application.usecases;
 import br.com.fiaplanchesclient.application.ports.out.ClientRepositoryPortOut;
 import br.com.fiaplanchesclient.domain.Client;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
-import jakarta.persistence.EntityNotFoundException;
+import br.com.fiaplanchesclient.infra.exception.handler.ContaBusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 @Slf4j
@@ -19,7 +19,7 @@ public class UpdateClientUseCase {
     public ClientDto atualiza(ClientDto clienteDtoNew) {
         log.info("Atualizando cliente para o CPF: " + clienteDtoNew.cpf());
         ClientDto clienteDtoOld = clientRepositoryPortOut.findClientByCpf(clienteDtoNew.cpf()).orElseThrow(
-                () -> new EntityNotFoundException("Cliente nao encontrado.")
+                () -> new ContaBusinessException("Cliente nao encontrado.")
         );
 
         Client clienteNew = clienteDtoNew.toClient();

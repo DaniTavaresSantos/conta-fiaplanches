@@ -2,7 +2,7 @@ package br.com.fiaplanchesclient.bdd;
 
 import br.com.fiaplanchesclient.application.dtos.ClientRequestDto;
 import br.com.fiaplanchesclient.infra.dto.ClientDto;
-import br.com.fiaplanchesclient.infra.repository.PostGresClienteRepository;
+import br.com.fiaplanchesclient.infra.repository.MongoClientRepository;
 import br.com.fiaplanchesclient.infra.repository.entity.ClientEntity;
 import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
@@ -15,10 +15,14 @@ import jakarta.transaction.Transactional;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -27,16 +31,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
+@DataMongoTest
+@Testcontainers
 public class StepDefinition {
 
     @Autowired
-    private PostGresClienteRepository clienteRepository;
+    private MongoClientRepository clienteRepository;
 
     private Response response;
 
     private ClientRequestDto clientDto;
 
     private String nomeAtual;
+    
+    private String cpfAtual;
 
     private final String END_API_CLIENTE = "http://localhost:8085/v1/client";
 
@@ -47,16 +55,16 @@ public class StepDefinition {
 
         System.out.println("Including Data.....");
 
-        ClientEntity c1 = new ClientEntity( new ClientDto(1L,
+        ClientEntity c1 = new ClientEntity( new ClientDto("1",
                 "38037984850",
                 "Daniel Tavares"));
-        ClientEntity c2 = new ClientEntity( new ClientDto(2L,
+        ClientEntity c2 = new ClientEntity( new ClientDto("2",
                 "49174699881",
                 "Nicole Tavares"));
-        ClientEntity c3 = new ClientEntity( new ClientDto(3L,
+        ClientEntity c3 = new ClientEntity( new ClientDto("3",
                 "10640145850",
                 "Cristian Macedo"));
-        ClientEntity c4 = new ClientEntity( new ClientDto(4L,
+        ClientEntity c4 = new ClientEntity( new ClientDto("4",
                 "16494823882",
                 "Juan Silva"));
 
@@ -125,7 +133,7 @@ public class StepDefinition {
 
         response = given()
                 .when()
-                .delete(END_API_CLIENTE + "/delete/" + clientDto.cpf());
+                .delete(END_API_CLIENTE + "/" + clientDto.cpf());
 
         response.then().assertThat().statusCode(HttpStatus.OK.value());
         System.out.println(response.body().prettyPrint());
@@ -151,8 +159,9 @@ public class StepDefinition {
         assertEquals(nomeAtual, clienteEntity.toClienteDto().nome());
     }
     @E("alterar os dados para CPF {word} e nome {word}")
-    public void alterarOsDadosParaCPFENomeCleiton(String cpf, String name) {
+    public void alterarOsDadosParaCPFENome(String cpf, String name) {
         nomeAtual = name;
+        cpfAtual = cpf;
     }
 
 
@@ -165,6 +174,37 @@ public class StepDefinition {
                 .when()
                 .get(END_API_CLIENTE + "/find/" + clientDto.cpf());
 
-        response.then().assertThat().statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        List<String> errorMessage = new ArrayList<String>();
+        errorMessage.add("Cliente nao localizado");
+
+        response.then().assertThat().statusCode(HttpStatus.BAD_REQUEST.value());
+        response.then().assertThat().body("exception", Is.is(errorMessage));
+        System.out.println(response.body().prettyPrint());
+    }
+
+    @Quando("for realizada a chamada no endpoint de criação com cliente ja cadastrado")
+    public void forRealizadaAChamadaNoEndpointDeCriaçãoComClienteJaCadastrado() {
+        response = given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(clientDto)
+                .when()
+                .post(END_API_CLIENTE + "/create");
+    }
+
+    @Quando("for realizada a chamada no endpoint de atualizacao de cliente com cliente nao cadastrado")
+    public void forRealizadaAChamadaNoEndpointDeAtualizacaoDeClienteComClienteNaoCadastrado() {
+        clientDto = new ClientRequestDto(cpfAtual, nomeAtual);
+
+        response = given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(clientDto)
+                .when()
+                .put(END_API_CLIENTE + "/update");
+    }
+
+    @Entao("o cliente nao deve ser cadastrado e a requisicao será sem sucesso")
+    public void oClienteNaoDeveSerCadastradoEARequisicaoSeráSemSucesso() {
+        response.then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }
