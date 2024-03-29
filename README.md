@@ -27,8 +27,7 @@ Isso iniciará os containers necessários para executar a aplicação.
 ## Ordem do caminho feliz a partir dos endpoints do postman:
 
 ## Utilizar os seguintes requests, onde o body informado ja é funcional.
-1. Cliente/Criar Cliente
-2. Pedido/Adiciona Pedido Carrinho
-3. Pedido/Paga Pedido
-4. Pedido/Consulta/Consulta Pedidos Ordenados
-5. Pedido/Atualiza Status Pedido
+1. client/createClient
+2. client/findCpf
+3. client/updateClient
+4. client/health
