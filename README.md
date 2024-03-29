@@ -31,3 +31,12 @@ Isso iniciará os containers necessários para executar a aplicação.
 2. client/findCpf
 3. client/updateClient
 4. client/health
+
+## Links dos Repositórios:
+https://github.com/DaniTavaresSantos/product-fiaplanches
+https://github.com/DaniTavaresSantos/pedido-fiaplanches
+https://github.com/DaniTavaresSantos/cozinha-fiaplanches
+https://github.com/DaniTavaresSantos/pagamento-fiaplanches
+https://github.com/dalexandrias/fiap-lanches-infra
+https://github.com/DaniTavaresSantos/lambda-fiaplanches
+
