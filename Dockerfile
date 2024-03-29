@@ -1,4 +1,4 @@
-FROM maven:latest
+FROM maven:3.9.6-eclipse-temurin-17-alpine
 
 ENV SPRING_DATA_MONGODB_URI=mongodb://mongo-db-client:27017/fiap-lanches-client
 WORKDIR /app
